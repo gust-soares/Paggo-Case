@@ -1,0 +1,30 @@
+Documento de instruções Projeto Case Paggo.ai
+
+Node.js(versão 14 ou superior)
+npm (versão 6 ou superior)
+
+
+FRONTEND:
+criar aquivo .env.local na raiz de my-webpage e colocar as variaveis de api e google client
+
+
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+API_URL=http://localhost:3001
+
+
+npm install
+
+npm run dev
+
+BACKEND:
+criar arquivo .env na raiz de my-backend
+
+DATABASE_URL="postgresql://admin:yourpassword@database-1.cv4uyaqko2pr.us-east-2.rds.amazonaws.com:5432/db_teste"
+AWS_ACCESS_KEY_ID=211125539783
+AWS_SECRET_ACCESS_KEY=0024457634bf562dd38862ae519f1f1ba4adf3eb636a52d862c2525ce1b754d4
+AWS_REGION=us-east-2
+AWS_S3_BUCKET_NAME=case-bucket-gustavo
+
+npm install
+
+npm run start:dev
