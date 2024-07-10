@@ -1,34 +1,20 @@
-import {
-    Controller,
-    Post,
-    UploadedFile,
-    UseInterceptors,
-} from '@nestjs/common';
+// src/upload/upload.controller.ts
+
+import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadService } from './upload.service';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { S3StorageService } from './s3-storage.service';
 
 @Controller('upload')
 export class UploadController {
-    constructor(private readonly uploadService: UploadService) { }
+    constructor(private readonly s3StorageService: S3StorageService) { }
 
     @Post()
-    @UseInterceptors(
-        FileInterceptor('file', {
-            storage: diskStorage({
-                destination: './uploads',
-                filename: (req, file, callback) => {
-                    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                    const ext = extname(file.originalname);
-                    const filename = `${uniqueSuffix}${ext}`;
-                    callback(null, filename);
-                },
-            }),
-        }),
-    )
+    @UseInterceptors(FileInterceptor('file'))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
-        const result = await this.uploadService.uploadImage(file);
-        return result;
+        const fileUrl = await this.s3StorageService.uploadFile(file);
+        return { url: fileUrl };
     }
 }
+
+
+
